@@ -70,6 +70,10 @@ Focuses on polishing the framework, making it ready for a stable release.
 3.  **Packaging and Distribution:**
     *   **Racket Package:** Package the framework as a Racket package, so it can be easily installed and used by other developers.
     *   **Community Building:** Create a community around the framework by setting up a mailing list, a forum, or a chat room.
+4.  **Website and Marketing:**
+    *   **Framework Website:** Create an attractive, modern website for the Ella framework showcasing features, documentation, and examples.
+    *   **Interactive Demos:** Build interactive examples and tutorials that can run in the browser.
+    *   **Marketing Materials:** Develop compelling marketing content to attract developers to the framework.
 
 ## Progress and Challenges (Phase 1: Improve Routing - Named Parameters)
 
