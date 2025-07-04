@@ -1,0 +1,6 @@
+# Racket temporary files
+#example.rkt#
+.#example.rkt
+
+# Compiled Racket files
+compiled/
