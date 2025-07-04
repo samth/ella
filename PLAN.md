@@ -108,3 +108,27 @@ Focuses on polishing the framework, making it ready for a stable release.
 ## Next Steps
 
 The immediate next step is to resolve the persistent "Not Found" error for named parameters. This will require further in-depth debugging of the `regexp-match` behavior within the Racket environment.
+
+## Summary of Work Done and Not Done (as of July 3, 2025)
+
+**Work Done:**
+
+*   Attempted to implement named parameters in routes, including updating `parse-route`, `route` struct, and `start` function.
+*   Added a test route in `example.rkt` and a testing script (`test_server.sh`).
+*   Identified and attempted to fix several issues related to Racket imports, path extraction, and regex generation.
+*   Added extensive `printf` debugging statements to `main.rkt` to trace the execution and variable values.
+
+**Work Not Done (and remaining challenges):**
+
+*   **Named parameter routing is still not fully functional.** The `regexp-match` function consistently returns `#f`, leading to "Not Found" errors for named parameter routes.
+*   **The root cause of the `regexp-match` failure is still unknown.** Despite extensive debugging, the exact reason for the mismatch between the generated regex and the request path remains elusive. This might be due to a subtle interaction with the Racket environment or an underlying module resolution issue.
+*   **The "Persistent `bytes->string/utf8` Unbound Error" remains unresolved.** While a workaround was implemented, the underlying cause of this import issue is still not understood. This suggests a potential deeper Racket environment or module resolution problem.
+*   **Splat/Wildcard Parameters** (Phase 1) have not been implemented.
+*   **Enhance Parameter Handling** (Phase 1) has not been implemented beyond basic named parameters.
+*   **Expand Response Handling** (Phase 1) has not been implemented.
+*   **Basic Templating** (Phase 1) has not been implemented.
+*   **Testing** (Phase 1) beyond the basic `test_server.sh` script has not been implemented.
+
+**Conclusion:**
+
+The named parameter routing feature is currently blocked by an unresolved issue with `regexp-match` and potentially a deeper Racket environment problem. Further progress on Phase 1 features is contingent on resolving this core routing issue.
