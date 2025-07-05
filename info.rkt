@@ -3,7 +3,6 @@
 (define collection "ella")
 (define deps '("base"
                "web-server-lib"
-               "json"
                "net-lib"))
 (define build-deps '("scribble-lib" "racket-doc" "rackunit-lib"))
 (define scribblings '(("scribblings/ella.scrbl" ())))
