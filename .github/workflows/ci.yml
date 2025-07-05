@@ -35,7 +35,9 @@ jobs:
           ${{ runner.os }}-racket-${{ matrix.racket-version }}-
     
     - name: Install dependencies  
-      run: raco pkg install --deps search-auto --skip-installed --name ella
+      run: |
+        raco pkg install --deps search-auto --skip-installed --name ella || true
+        raco pkg install --deps search-auto web-server-lib net-lib || true
     
     - name: Run tests
       run: |
