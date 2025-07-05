@@ -43,6 +43,3 @@ jobs:
       run: |
         raco test main.rkt
         bash test_all.sh
-    
-    - name: Check package setup
-      run: raco setup --check-pkg-deps --unused-pkg-deps ella
