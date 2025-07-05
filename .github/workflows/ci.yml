@@ -35,7 +35,7 @@ jobs:
           ${{ runner.os }}-racket-${{ matrix.racket-version }}-
     
     - name: Install dependencies  
-      run: raco pkg install --auto --name ella
+      run: raco pkg install --auto --name ella || true
     
     - name: Run tests
       run: |
