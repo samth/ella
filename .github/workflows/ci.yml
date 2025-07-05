@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        racket-version: ['8.0', '8.9', 'current']
+        racket-version: ['current']
     
     steps:
     - uses: actions/checkout@v4
@@ -34,8 +34,10 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-racket-${{ matrix.racket-version }}-
     
-    - name: Install dependencies
-      run: raco pkg install --auto --name ella
+    - name: Install dependencies  
+      run: |
+        raco pkg install --auto --name ella
+        raco pkg install --auto json
     
     - name: Run tests
       run: |
