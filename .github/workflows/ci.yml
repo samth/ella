@@ -21,7 +21,7 @@ jobs:
       with:
         architecture: 'x64'
         distribution: 'full'
-        variant: 'regular'
+        variant: 'CS'
         version: ${{ matrix.racket-version }}
     
     - name: Cache Racket dependencies
