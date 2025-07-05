@@ -1,0 +1,45 @@
+name: CI
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        racket-version: ['current']
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Racket
+      uses: Bogdanp/setup-racket@v1.11
+      with:
+        architecture: 'x64'
+        distribution: 'full'
+        variant: 'CS'
+        version: ${{ matrix.racket-version }}
+    
+    - name: Cache Racket dependencies
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.local/share/racket
+          ~/.racket
+        key: ${{ runner.os }}-racket-${{ matrix.racket-version }}-${{ hashFiles('**/info.rkt') }}
+        restore-keys: |
+          ${{ runner.os }}-racket-${{ matrix.racket-version }}-
+    
+    - name: Install dependencies  
+      run: |
+        raco pkg install --deps search-auto --skip-installed --name ella || true
+        raco pkg install --deps search-auto web-server-lib net-lib || true
+    
+    - name: Run tests
+      run: |
+        raco test main.rkt
+        bash test_all.sh
