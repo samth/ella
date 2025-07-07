@@ -42,4 +42,4 @@ jobs:
     - name: Run tests
       run: |
         raco test main.rkt
-        bash test_all.sh
+        bash test/test_all.sh

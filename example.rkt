@@ -1,4 +1,5 @@
 #lang ella
+(require (file "main.rkt"))
 
 ;; Define helper functions
 (define-helper format-date (timestamp)
@@ -77,15 +78,15 @@
              (p (a ([href "/api/user/" ,id]) "View JSON API")))
           (string-append "User: " name)))
 
-(get /dont-mean-a-thing "If it ain't got that swing!")
+(get /dont-mean-a-thing (response "If it ain't got that swing!"))
 
 (get "/hello/:name" (string-append "Hello, " (hash-ref (params) 'name)))
 
 (get "/say/*/to/*" (string-append "Say " (first (hash-ref (params) 'splat)) " to " (second (hash-ref (params) 'splat))))
 
-(get "/greet" (string-append "Greetings, " (hash-ref (params) 'name "stranger") "!"))
+(get "/greet" (response (string-append "Greetings, " (hash-ref (params) 'name "stranger") "!")))
 
-(get "/api/user/:id" (json-response (hash 'id (hash-ref (params) 'id) 'name "test-user")))
+(get "/api/user/:id" (response/json (hash 'id (hash-ref (params) 'id) 'name "test-user")))
 
 (get "/user/:id" (html (template 'user-page "John Doe" (hash-ref (params) 'id))))
 
