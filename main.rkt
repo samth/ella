@@ -24,7 +24,7 @@
 (provide get post put patch
          params
          first second
-         json-response content-type
+         response/json content-type
          html template layout
          before after
          helpers define-helper
@@ -178,15 +178,17 @@
   (cond [(string? r) (response/output (λ (o) (write-string r o)))]
         [(bytes? r) (response/output (λ (o) (write-string r o)))]
         [(xexpr? r) (response/xexpr r)]
-        [(json-response? r) (json-response->response r)]
+        [(response? r) r]
         [else #f]))
 
-(struct json-response (data) #:transparent)
+(struct response (output headers code message) #:prefab)
 
-(define (json-response->response jr)
-  (response/output
-   #:headers (list (header #"Content-Type" #"application/json"))
-   (λ (o) (write-string (jsexpr->string (json-response-data jr)) o))))
+(define (make-response . args)
+  (apply response args))
+
+(define (response/json data)
+  (response (λ (o) (write-string (jsexpr->string data) o))
+            (list (header #"Content-Type" #"application/json")) 200 #"OK"))
 
 (define (content-type type)
   (case type
@@ -449,9 +451,8 @@
   
   ;; Test JSON response
   (test-case "JSON response"
-    (define jr (json-response (hash 'name "Alice" 'age 30)))
-    (check-true (json-response? jr))
-    (check-equal? (json-response-data jr) (hash 'name "Alice" 'age 30)))
+    (define jr (response/json (hash 'name "Alice" 'age 30)))
+    (check-true (response? jr)))
   
   ;; Test content-type helper
   (test-case "Content-type helper"

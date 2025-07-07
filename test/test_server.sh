@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Start the server in the background
-racket example.rkt &
+racket ../example.rkt &
 
 # Get the process ID of the server
 SERVER_PID=$!
