@@ -4,3 +4,6 @@
 
 # Compiled Racket files
 **/compiled/
+
+# Generated docs/assets
+doc/
