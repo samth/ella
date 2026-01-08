@@ -3,4 +3,4 @@
 .#example.rkt
 
 # Compiled Racket files
-compiled/
+**/compiled/

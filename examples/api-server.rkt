@@ -40,8 +40,8 @@
 
 ;; GET /api/users/:id - Get specific user
 (get "/api/users/:id"
-  (let ([user-id (hash-ref (params) 'id)]
-        [user (hash-ref users user-id #f)])
+  (let* ([user-id (hash-ref (params) 'id)]
+         [user (hash-ref users user-id #f)])
     (if user
         (helper 'api-response user)
         (helper 'api-error "User not found" 404))))
@@ -65,8 +65,8 @@
 
 ;; PUT /api/users/:id - Update user
 (put "/api/users/:id"
-  (let ([user-id (hash-ref (params) 'id)]
-        [user (hash-ref users user-id #f)])
+  (let* ([user-id (hash-ref (params) 'id)]
+         [user (hash-ref users user-id #f)])
     (if user
         (let ([name (hash-ref (params) 'name (hash-ref user 'name))]
               [email (hash-ref (params) 'email (hash-ref user 'email))])
@@ -78,8 +78,8 @@
 ;; DELETE /api/users/:id - Delete user  
 ;; Note: Using patch for demo since DELETE might not work in all browsers
 (patch "/api/users/:id/delete"
-  (let ([user-id (hash-ref (params) 'id)]
-        [user (hash-ref users user-id #f)])
+  (let* ([user-id (hash-ref (params) 'id)]
+         [user (hash-ref users user-id #f)])
     (if user
         (begin
           (hash-remove! users user-id)

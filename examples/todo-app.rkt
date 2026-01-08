@@ -173,12 +173,11 @@
   (let ([text (hash-ref (params) 'text "")])
     (if (string=? text "")
         (json-response (hash 'error "Text is required") #:code 400)
-        (begin
-          (define todo-id (number->string next-todo-id))
-          (define new-todo (hash 'id todo-id
-                                'text text
-                                'completed #f
-                                'created-at (current-seconds)))
+        (let* ([todo-id (number->string next-todo-id)]
+               [new-todo (hash 'id todo-id
+                               'text text
+                               'completed #f
+                               'created-at (current-seconds))])
           (hash-set! todos todo-id new-todo)
           (set! next-todo-id (+ next-todo-id 1))
           (json-response new-todo)))))

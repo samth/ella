@@ -90,8 +90,8 @@
   (html (template 'post-list posts)))
 
 (get "/posts/:id"
-  (let ([post-id (hash-ref (params) 'id)]
-        [post (findf (lambda (p) (string=? (hash-ref p 'id) post-id)) posts)])
+  (let* ([post-id (hash-ref (params) 'id)]
+         [post (findf (lambda (p) (string=? (hash-ref p 'id) post-id)) posts)])
     (if post
         (html (template 'post-detail post))
         (error-handler 404 (current-request)))))

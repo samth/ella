@@ -21,13 +21,13 @@
 
 (require (prefix-in r: racket/base))
 
-(provide get post put patch
+(provide get post put patch head
          params
          first second
-         response/json content-type
-         html template layout
+         json-response response/json content-type
+         html define-template template define-layout layout
          before after
-         helpers define-helper
+         helpers define-helper helper
          error-handler define-error-handler
          scribble-template
          request-method request-uri url->string current-request current-params
@@ -176,19 +176,19 @@
 
 (define (->response r)
   (cond [(string? r) (response/output (λ (o) (write-string r o)))]
-        [(bytes? r) (response/output (λ (o) (write-string r o)))]
+        [(bytes? r) (response/output (λ (o) (write-bytes r o)))]
         [(xexpr? r) (response/xexpr r)]
         [(response? r) r]
         [else #f]))
 
-(struct response (output headers code message) #:prefab)
-
-(define (make-response . args)
-  (apply response args))
+(define (json-response data #:code [code 200] #:headers [headers null])
+  (response/output
+   #:code code
+   #:headers (append (list (header #"Content-Type" #"application/json")) headers)
+   (λ (o) (write-string (jsexpr->string data) o))))
 
 (define (response/json data)
-  (response (λ (o) (write-string (jsexpr->string data) o))
-            (list (header #"Content-Type" #"application/json")) 200 #"OK"))
+  (json-response data))
 
 (define (content-type type)
   (case type
@@ -223,7 +223,10 @@
             (λ () (error 'layout "Layout not found: ~a" name))))
 
 (define-syntax-rule (define-layout name (content param ...) body ...)
-  (hash-set! layout-registry 'name (λ (content param ...) body ...)))
+  (begin
+    (hash-set! layout-registry 'name (λ (content param ...) body ...))
+    (define (name content param ...)
+      (layout 'name content param ...))))
 
 (provide define-template define-layout)
 
@@ -451,7 +454,7 @@
   
   ;; Test JSON response
   (test-case "JSON response"
-    (define jr (response/json (hash 'name "Alice" 'age 30)))
+    (define jr (json-response (hash 'name "Alice" 'age 30)))
     (check-true (response? jr)))
   
   ;; Test content-type helper

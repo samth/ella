@@ -36,7 +36,10 @@
             (λ () (error 'layout "Layout not found: ~a" name))))
 
 (define-syntax-rule (define-layout name (content param ...) body ...)
-  (hash-set! layout-registry 'name (λ (content param ...) body ...)))
+  (begin
+    (hash-set! layout-registry 'name (λ (content param ...) body ...))
+    (define (name content param ...)
+      (layout 'name content param ...))))
 
 ;; HTML response helper
 (define (html xexpr)
